@@ -4,7 +4,7 @@ import pandas as pd
 import streamlit as st
 
 
-f = open("lasso.plk", "rb")
+f = open("lasso.pkl", "rb")
 model = pickle.load(f)
 
 
