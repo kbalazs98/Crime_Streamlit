@@ -3,9 +3,7 @@ import numpy as np
 import pandas as pd
 import streamlit as st
 
-
-f = open("lasso.pkl", "rb")
-model = pickle.load(f)
+model = pickle.load(open('lasso.pkl','rb'))
 
 
 
@@ -23,23 +21,24 @@ def main():
    
     st.markdown(html_temp, unsafe_allow_html = True)
 
-    #'population','numbUrban','medIncome','NumUnderPov','NumKidsBornNeverMar','NumImmig','NumInShelters','NumStreet'
-    population = st.number_input("population",7322564)
-    numbUrban = st.number_input("numbUrban",7322564)
-    medIncome = st.number_input("medIncome",29823)
-    NumUnderPov = st.number_input("NumUnderPov",1384994)
-    NumKidsBornNeverMar = st.number_input("NumKidsBornNeverMar",527557)
-    NumImmig = st.number_input("NumImmig",2082931)
-    NumInShelters = st.number_input("NumInShelterst",23383)
-    NumStreet = st.number_input("NumStreet",10447)
+    racepctblack = st.slider("Percentage of population that is african american",min_value=0,max_value=100,key=0)
+    agePct12t21 = st.slider("Percentage of population that is 12-21 in age",min_value=0,max_value=100,key=1)
+    agePct65up = st.slider("Percentage of population that is 65 and over in age",min_value=0,max_value=100,key=2)
+    MalePctDivorce = st.slider("Percentage of males who are divorced",min_value=0,max_value=100,key=3)
+    PctKids2Par = st.slider("Percentage of kids in family housing with two parents",min_value=0,max_value=100,key=4)
+    PctSpeakEnglOnly = st.slider("Percentage of people who speak only English",min_value=0,max_value=100,key=5)
+    NumKidsBornNeverMar =  st.number_input("Births outside of marriage",value = 10)
+    NumStreet = st.number_input("Number of homeless people counted in the street",value = 10447)
+    NumInShelters = st.number_input("Number of people in homeless shelters",value = 23383)
 
-    params = [[population,numbUrban,medIncome,NumUnderPov,NumKidsBornNeverMar,NumImmig,NumInShelters,NumStreet]]
+    #x = data[['racepctblack','agePct12t21','agePct65up','MalePctDivorce','PctKids2Par','NumKidsBornNeverMar','PctSpeakEnglOnly','NumInShelters','NumStreet']]
+    params = [[racepctblack,agePct12t21,agePct65up,MalePctDivorce,PctKids2Par,NumKidsBornNeverMar,PctSpeakEnglOnly,NumInShelters,NumStreet]]
     robbs = predict_robbery(params)
 
 
     if st.button("Predict"):
         if robbs>0:
-            st.success('Number of predicted robberis: {}'.format(predict_robbery(params)))
+            st.success('Number of predicted robberies: {}'.format(predict_robbery(params)))
         else:
             st.success('There will be no robberies.')
 
